@@ -1,0 +1,120 @@
+<div class="row">
+    <div class="col-2 p-0" style="min-height: 795px;">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100%;">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <span class="fs-4">Computer Shop</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active" class="nav-link text-white"
+                        aria-current="page">
+                        <i class="bi bi-house-door"></i>
+                        Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/orders']" class="nav-link text-white">
+                        <i class="bi bi-receipt-cutoff"></i>
+                        Đơn hàng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/categories']" class="nav-link active">
+                        <i class="bi bi-tags"></i>
+                        Nhãn hàng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/products']" class="nav-link text-white">
+                        <i class="bi bi-display"></i>
+                        Sản phẩm
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/users']" class="nav-link text-white">
+                        <i class="bi bi-people-fill"></i>
+                        Người dùng
+                    </a>
+                </li>    
+                <li>
+                    <a [routerLink]="['/rates']" class="nav-link text-white">
+                        <i class="bi bi-list-stars"></i>
+                        Bình luận & đánh giá
+                    </a>
+                </li>            
+                <li>
+                    <a [routerLink]="['/statistical']" class="nav-link text-white">
+                        <i class="bi bi-reception-4"></i>
+                        Doanh thu
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img [src]="image" alt="" width="32" height="32"
+                        class="rounded-circle me-2">
+                    <strong>Account</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark bg-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <li><app-edit-profile (editFinish)="finish()"></app-edit-profile></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-9 p-0 mt-4" style="margin-left: 5%;">
+        <div class="col">
+            <h2 style="font-size: 25px; font-family: Verdana, Geneva, Tahoma, sans-serif; text-decoration: underline;">
+                Quản lí nhãn hàng</h2>
+            <div class="m-2" *ngIf="isLoading">
+                <div class="pull-right label label-info row col" style="min-height: 700px !important;">
+                    <!-- <div class="loader"></div> -->
+                    <div class="spinner-border" role="status"
+                        style="margin: auto; width: 6em;height: 6em; border: 0.7em solid black currentColor;">
+                    </div>
+                </div>
+            </div>
+            <div class="m-2">
+                <mat-form-field>
+                    <mat-label>Tìm kiếm</mat-label>
+                    <input matInput type="text" (keyup)="search($event);" />
+                </mat-form-field>
+                <app-add-category (saveFinish)="finish()" style="float: right;"></app-add-category>
+                <table mat-table [dataSource]="listData" matSort class="mat-elevation-z8">
+                    <ng-container matColumnDef="categoryId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%;">Mã nhãn hiệu</th>
+                        <td mat-cell *matCellDef="let row">{{row.categoryId}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="categoryName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 60%;">Tên nhãn hiệu</th>
+                        <td mat-cell *matCellDef="let row">{{row.categoryName}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="view">
+                        <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: center;">Xem</th>
+                        <td mat-cell *matCellDef="let row" style="text-align: center;">
+                            <app-edit-category [id]='row.categoryId' (editFinish)="finish()"></app-edit-category>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="delete">
+                        <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: center;">Xoá</th>
+                        <td mat-cell *matCellDef="let row" style="text-align: center;">
+                            <a (click)="delete(row.categoryId, row.categoryName)"
+                                style="color: steelblue; cursor: pointer;"><i class="bi bi-trash-fill"></i></a>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+                </table>
+                <mat-paginator [length]="categoriesLength" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

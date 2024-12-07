@@ -1,0 +1,74 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h2 class="modal-title m-0">Thêm sản phẩm</h2>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="postForm" class="row p-2">
+            <input type="hidden" formControlName="productId">
+            <input type="hidden" formControlName="enteredDate">
+            <!-- <input type="hidden" formControlName="rate"> -->
+            <div class="form-group col-6">
+                <label for="name">Tên sản phẩm:</label>
+                <input type="text" name="name" id="name"
+                    [ngClass]="{'is-invalid':postForm.get('name')?.touched && postForm.get('name')?.invalid}"
+                    class="form-control" placeholder="Tên sản phẩm" formControlName="name">
+                <small *ngIf="postForm.get('name')?.invalid && postForm.get('name')?.touched" class="text-danger">Tên
+                    sản phẩm không hợp lệ</small>
+            </div>
+            <div class="form-group col-6">
+                <label for="price">Giá:</label>
+                <div class="input-group">
+                    <input type="number" name="price" id="price"
+                        [ngClass]="{'is-invalid':postForm.get('price')?.touched && postForm.get('price')?.invalid}"
+                        class="form-control" placeholder="100.000.000" formControlName="price">
+                    <span class="input-group-text">VNĐ</span>
+                </div>
+                <small *ngIf="postForm.get('price')?.invalid && postForm.get('price')?.touched" class="text-danger">Giá
+                    sản phẩm không hợp lệ</small>
+            </div>
+            <div class="form-group col-6">
+                <label for="quantity">Số lượng:</label>
+                <input type="number" name="quantity" id="quantity"
+                    [ngClass]="{'is-invalid':postForm.get('price')?.touched && postForm.get('price')?.invalid}"
+                    class="form-control" placeholder="99" formControlName="quantity">
+                <small *ngIf="postForm.get('quantity')?.invalid && postForm.get('quantity')?.touched"
+                    class="text-danger">Số lượng không hợp lệ</small>
+            </div>
+            <div class="form-group col-6">
+                <label for="discount">Giảm giá:</label>
+                <div class="input-group">
+                    <input type="number" name="discount" id="discount"
+                        [ngClass]="{'is-invalid':postForm.get('discount')?.touched && postForm.get('discount')?.invalid}"
+                        class="form-control" placeholder="10" formControlName="discount">
+                    <span class="input-group-text">%</span>
+                </div>
+                <small *ngIf="postForm.get('discount')?.invalid && postForm.get('discount')?.touched"
+                    class="text-danger">Không hợp lệ</small>
+            </div>
+            <div class="col-6 p-0">
+                <div class="col-12">
+                    <label for="categoryId">Nhãn hàng:</label>
+                    <select class="form-select" name="category" id="categoryId" formControlName="categoryId">
+                        <option *ngFor="let item of categories" [value]="item.categoryId">{{item.categoryName}}</option>
+                    </select>
+                </div>
+                <div class="col-12 mt-4">
+                    <label for="description">Mô tả:</label>
+                    <textarea [ngClass]="{'is-invalid':postForm.get('description')?.touched && postForm.get('description')?.invalid}" class="form-control" name="description" id="description" placeholder="abc" style="height: 120px"
+                        formControlName="description"></textarea>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <h3>Ảnh sản phẩm</h3>
+                <img [src]="url" width="200px" id="blah" class="img-fluid">
+                <div class="input-group col-10 offset-1">
+                    <input type="file" accept="image/*" (change)="readUrl($event)" class="form-control"
+                        id="inputGroupFile01">
+                </div>
+            </div>
+
+            <button mat-raised-button color="primary" class="col-2 m-3" [disabled]="postForm?.invalid" (click)="save()">Thêm</button>
+        </form>
+    </div>
+</ng-template>
+<button mat-raised-button color="primary" (click)="open(content)">Thêm sản phẩm</button>

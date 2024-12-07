@@ -1,0 +1,194 @@
+<div class="row">
+    <div class="col-2 p-0" style="min-height: 795px;">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100%;">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <span class="fs-4">Computer Shop</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active" class="nav-link text-white"
+                        aria-current="page">
+                        <i class="bi bi-house-door"></i>
+                        Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/orders']" class="nav-link text-white">
+                        <i class="bi bi-receipt-cutoff"></i>
+                        Đơn hàng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/categories']" class="nav-link text-white">
+                        <i class="bi bi-tags"></i>
+                        Nhãn hàng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/products']" class="nav-link text-white">
+                        <i class="bi bi-display"></i>
+                        Sản phẩm
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/users']" class="nav-link text-white">
+                        <i class="bi bi-people-fill"></i>
+                        Người dùng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/rates']" class="nav-link text-white">
+                        <i class="bi bi-list-stars"></i>
+                        Bình luận & đánh giá
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/statistical']" class="nav-link active">
+                        <i class="bi bi-reception-4"></i>
+                        Doanh thu
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img [src]="image" alt="" width="32" height="32"
+                        class="rounded-circle me-2">
+                    <strong>Account</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark bg-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <li><app-edit-profile (editFinish)="finish()"></app-edit-profile></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-9 p-0 mt-4" style="margin-left: 5%;">
+        <div class="col">
+            <h2 style="font-size: 25px; font-family: Verdana, Geneva, Tahoma, sans-serif; text-decoration: underline;">
+                Doanh thu</h2>
+            <!-- <div class="m-2" *ngIf="isLoading">
+                <div class="pull-right label label-info row col" style="min-height: 700px !important;">
+                    <div class="spinner-border" role="status"
+                        style="margin: auto; width: 6em;height: 6em; border: 0.7em solid black currentColor;">
+                    </div>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="p-3 border rounded col-5 m-4" style="margin-left: 6% !important;">
+                    <h4 style="font-size: 16px; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                        Theo ngày</h4>
+                    <mat-tab-group>
+                        <mat-tab label="Biểu đồ">
+                            <div id="divChart">
+                                <canvas id="chartDate"></canvas>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Bảng">
+                            <table #sortDate="matSort" mat-table [dataSource]="listDataDate" matSort class="mat-elevation-z8">
+                                <ng-container matColumnDef="index">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>STT</th>
+                                    <td mat-cell *matCellDef="let row, let i = index">{{i+1}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="date">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Ngày</th>
+                                    <td mat-cell *matCellDef="let row">{{row.date|date:'dd-MM-yyyy'}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="count">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Số đơn hàng</th>
+                                    <td mat-cell *matCellDef="let row">{{row.count}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="amount">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tổng tiền</th>
+                                    <td mat-cell *matCellDef="let row">{{row.amount|currency:'VND'}}</td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="columnsDate"></tr>
+                                <tr mat-row *matRowDef="let row; columns: columnsDate;"></tr>
+                            </table>
+                            <mat-paginator #MatPaginatorDate [length]="lengthDate" [pageSize]="5" 
+                                [pageSizeOptions]="[5, 10, 25, 50, 100]">
+                            </mat-paginator>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="p-3 border rounded col-5 m-4" style="margin-left: 6% !important;">
+                    <h4 style="font-size: 16px; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                        Theo tháng</h4>
+
+                    <mat-tab-group>
+                        <mat-tab label="Biểu đồ">
+                            <div id="divChart">
+                                <canvas id="chartMonth"></canvas>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Bảng">
+                            <table #sortMonth="matSort" mat-table [dataSource]="listDataMonth" matSort class="mat-elevation-z8">
+                                <ng-container matColumnDef="index">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>STT</th>
+                                    <td mat-cell *matCellDef="let row, let i = index">{{i+1}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="date">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tháng</th>
+                                    <td mat-cell *matCellDef="let row">{{row.date|date:'MM-yyyy'}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="count">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Số đơn hàng</th>
+                                    <td mat-cell *matCellDef="let row">{{row.count}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="amount">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tổng tiền</th>
+                                    <td mat-cell *matCellDef="let row">{{row.amount|currency:'VND'}}</td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="columnsMonth"></tr>
+                                <tr mat-row *matRowDef="let row; columns: columnsMonth;"></tr>
+                            </table>
+                            <mat-paginator #MatPaginatorMonth [length]="lengthMonth" [pageSize]="5"
+                                [pageSizeOptions]="[5, 10, 25, 50, 100]">
+                            </mat-paginator>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="col-11 m-4 p-3 border rounded" style="margin-left: 6% !important;">
+                    <h4 style="font-size: 16px; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                        Theo năm</h4>
+                    <div class="row">
+                        <div id="divChart" class="p-5 col-6">
+                            <canvas id="chartYear"></canvas>
+                        </div>
+                        <div class="col-5 offset-1 pt-5">
+                            <table #sortYear="matSort" mat-table [dataSource]="listDataYear" matSort class="mat-elevation-z8">
+                                <ng-container matColumnDef="index">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>STT</th>
+                                    <td mat-cell *matCellDef="let row, let i = index">{{i+1}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="date">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tháng</th>
+                                    <td mat-cell *matCellDef="let row">{{row.date|date:'yyyy'}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="count">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Số đơn hàng</th>
+                                    <td mat-cell *matCellDef="let row">{{row.count}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="amount">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tổng tiền</th>
+                                    <td mat-cell *matCellDef="let row">{{row.amount|currency:'VND'}}</td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="columnsYears"></tr>
+                                <tr mat-row *matRowDef="let row; columns: columnsYears;"></tr>
+                            </table>
+                            <mat-paginator #MatPaginatorYear [length]="lengthYears" [pageSize]="5"
+                                [pageSizeOptions]="[5, 10, 25, 50, 100]">
+                            </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,143 @@
+<div class="row">
+    <div class="col-2 p-0" style="min-height: 795px;">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100%;">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <span class="fs-4">Computer Shop</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active" class="nav-link text-white"
+                        aria-current="page">
+                        <i class="bi bi-house-door"></i>
+                        Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/orders']" class="nav-link text-white">
+                        <i class="bi bi-receipt-cutoff"></i>
+                        Đơn hàng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/categories']" class="nav-link text-white">
+                        <i class="bi bi-tags"></i>
+                        Nhãn hàng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/products']" class="nav-link text-white">
+                        <i class="bi bi-display"></i>
+                        Sản phẩm
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/users']" class="nav-link text-white">
+                        <i class="bi bi-people-fill"></i>
+                        Người dùng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/rates']" class="nav-link active">
+                        <i class="bi bi-list-stars"></i>
+                        Bình luận & đánh giá
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/statistical']" class="nav-link text-white">
+                        <i class="bi bi-reception-4"></i>
+                        Doanh thu
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img [src]="image" alt="" width="32" height="32"
+                        class="rounded-circle me-2">
+                    <strong>Account</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark bg-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <li><app-edit-profile (editFinish)="finish()"></app-edit-profile></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-9 p-0 mt-4" style="margin-left: 5%;">
+        <div class="col">
+            <h2 style="font-size: 25px; font-family: Verdana, Geneva, Tahoma, sans-serif; text-decoration: underline;">
+                Bình luận & đánh giá</h2>
+            <div class="m-2" *ngIf="isLoading">
+                <div class="pull-right label label-info row col" style="min-height: 700px !important;">
+                    <div class="spinner-border" role="status"
+                        style="margin: auto; width: 6em;height: 6em; border: 0.7em solid black currentColor;">
+                    </div>
+                </div>
+            </div>
+            <div class="m-2">
+                <mat-form-field>
+                    <mat-label>Tìm kiếm</mat-label>
+                    <input matInput type="text" (keyup)="search($event)" />
+                </mat-form-field>
+                <table mat-table [dataSource]="listData" matSort class="mat-elevation-z8">
+                    <ng-container matColumnDef="index">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 6%;">STT</th>
+                        <td mat-cell *matCellDef="let row, let i = index">{{i+1}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 20%;">Khách hàng</th>
+                        <td mat-cell *matCellDef="let row">{{row.user.name}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="product">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%;">Sản phẩm</th>
+                        <td mat-cell *matCellDef="let row">
+                            <img [src]="row.product.image" style="width: 60px;" [title]='row.product.name'
+                                class="img-fluid">
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="star">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%;">Đánh giá</th>
+                        <td mat-cell *matCellDef="let row">
+                            <ngb-rating [(rate)]="row.star" [starTemplate]="t" [readonly]="true" [max]="5" title="{{row.star}} sao"></ngb-rating>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="comment">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;">Bình luận</th>
+                        <td mat-cell *matCellDef="let row">{{row.comment}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="rateDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%;">Thời gian</th>
+                        <td mat-cell *matCellDef="let row">{{row.rateDate|date:'dd-MM-yyyy'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="delete">
+                        <th mat-header-cell *matHeaderCellDef style="width: 10%;">Xoá</th>
+                        <td mat-cell *matCellDef="let row">
+                            <a class="bi bi-trash-fill" style="color: steelblue; cursor: pointer;" (click)="delete(row.id)"></a>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+                </table>
+                <mat-paginator [length]="ratesLength" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- star -->
+<ng-template #t let-fill="fill">
+    <span class="star" [class.full]="fill === 100" style="font-size: 90%;">
+        <span class="half" [style.width.%]="fill">
+            <i class="fa fa-star"></i>
+        </span>
+        <i class="fa fa-star"></i>
+    </span>
+</ng-template>

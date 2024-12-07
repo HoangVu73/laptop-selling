@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="col-2 p-0" style="min-height: 795px;">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100%;">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <span class="fs-4">Computer Shop</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active" class="nav-link active"
+                        aria-current="page">
+                        <i class="bi bi-house-door"></i>
+                        Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/orders']" class="nav-link text-white">
+                        <i class="bi bi-receipt-cutoff"></i>
+                        Đơn hàng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/categories']" class="nav-link text-white">
+                        <i class="bi bi-tags"></i>
+                        Nhãn hàng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/products']" class="nav-link text-white">
+                        <i class="bi bi-display"></i>
+                        Sản phẩm
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/users']" class="nav-link text-white">
+                        <i class="bi bi-people-fill"></i>
+                        Người dùng
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/rates']" class="nav-link text-white">
+                        <i class="bi bi-list-stars"></i>
+                        Bình luận & đánh giá
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/statistical']" class="nav-link text-white">
+                        <i class="bi bi-reception-4"></i>
+                        Doanh thu
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img [src]="image" alt="" width="32" height="32"
+                        class="rounded-circle me-2">
+                    <strong>Account</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark bg-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <li><app-edit-profile (editFinish)="finish()"></app-edit-profile></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-9 p-0 mt-4" style="margin-left: 5%;">
+        <div class="col">
+            <h2 style="font-size: 25px; font-family: Verdana, Geneva, Tahoma, sans-serif; text-decoration: underline;">
+                Trang chủ</h2>
+        </div>
+        <div class="row mt-4">
+            <div class="col-3">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-body" style="font-size: 16px; font-weight: 500;">Đơn hàng
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{orderLength}}
+                        </span>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" [routerLink]="['/orders']">Chi tiết</a>
+                        <div class="small text-white"><i class="bi bi-arrow-right-short"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card bg-warning text-white mb-4">
+                    <div class="card-body" style="font-size: 16px; font-weight: 500;">Doanh thu
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">Chi tiết</a>
+                        <div class="small text-white"><i class="bi bi-arrow-right-short"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card bg-success text-white mb-4">
+                    <div class="card-body" style="font-size: 16px; font-weight: 500;">Sản phẩm
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" [routerLink]="['/products']">Chi tiết</a>
+                        <div class="small text-white"><i class="bi bi-arrow-right-short"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card bg-info text-white mb-4">
+                    <div class="card-body" style="font-size: 16px; font-weight: 500;">Khách hàng
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{userLength}}
+                        </span>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" [routerLink]="['/users']">Chi tiết</a>
+                        <div class="small text-white"><i class="bi bi-arrow-right-short"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="bi bi-table"></i>
+                        <span> Doanh thu theo năm</span>
+                    </div>
+                    <div class="card-body">
+                        <select class="form-select col-2 float-right" [(ngModel)]="year"
+                        (change)="selectYear()">
+                            <option *ngFor="let item of years" [value]="item">{{item}}</option>
+                        </select>
+                        <div id="divChart">
+                            <canvas id="chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h2 class="modal-title m-0">Thêm người dùng</h2>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="postForm" class="row p-2">
+            <input type="hidden" formControlName="userId">
+            <input type="hidden" formControlName="registerDate">
+            <input type="hidden" formControlName="status">
+            <input type="hidden" formControlName="role">
+            <div class="col-6">
+                <div class="form-group col-12">
+                    <label for="email">Email:</label>
+                    <input readonly [ngClass]="{'is-invalid':postForm.get('email')?.touched && postForm.get('email')?.invalid}"
+                        type="text" name="email" class="form-control" email id="email" placeholder="Email"
+                        formControlName="email">
+                    <small class="text-danger"
+                        *ngIf="postForm.get('email')?.invalid && postForm.get('email')?.touched">Email không hợp
+                        lệ</small>
+                </div>
+                <div class="form-group col-12">
+                    <label for="name">Tên:</label>
+                    <input [ngClass]="{'is-invalid':postForm.get('name')?.touched && postForm.get('name')?.invalid}"
+                        type="text" name="name" class="form-control" id="name" placeholder="Nguyễn Văn A"
+                        formControlName="name">
+                    <small class="text-danger"
+                        *ngIf="postForm.get('name')?.invalid && postForm.get('name')?.touched">Tên không hợp lệ</small>
+                </div>
+                <div class="form-group col-12">
+                    <label for="pasword">Mật khẩu:</label>
+                    <input
+                        [ngClass]="{'is-invalid':postForm.get('password')?.touched && postForm.get('password')?.invalid}"
+                        type="password" name="password" class="form-control" id="password" placeholder="Mật khẩu"
+                        formControlName="password">
+                    <small *ngIf="postForm.get('password')?.invalid && postForm.get('password')?.touched"
+                        class="text-danger">Mật khẩu không hợp lệ</small>
+                </div>
+                <div class="form-group col-12">
+                    <label for="address">Địa chỉ:</label>
+                    <input
+                        [ngClass]="{'is-invalid':postForm.get('address')?.touched && postForm.get('address')?.invalid}"
+                        type="text" name="address" class="form-control" id="address" placeholder="Hà Nội"
+                        formControlName="address">
+                    <small class="text-danger"
+                        *ngIf="postForm.get('name')?.invalid && postForm.get('name')?.touched">Địa chỉ không hợp
+                        lệ</small>
+                </div>
+                <div class="form-group col-12">
+                    <label for="phone">Số điện thoại:</label>
+                    <input [ngClass]="{'is-invalid':postForm.get('phone')?.touched && postForm.get('phone')?.invalid}"
+                        type="text" name="phone" class="form-control" id="phone" placeholder="09********"
+                        formControlName="phone">
+                    <small class="text-danger"
+                        *ngIf="postForm.get('phone')?.invalid && postForm.get('phone')?.touched">Số điện thoại không hợp
+                        lệ</small>
+                </div>
+                <div class="form-group col-12">
+                    <label for="gender">Giới tính:</label>
+                    <select class="form-select" id="gender" name="gender" formControlName="gender">
+                        <option value="true">Nam</option>
+                        <option value="false">Nữ</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="col-12 text-center">
+                    <label>Ảnh đại diện</label> <br>
+                    <img [src]="url" style="width: 150px;" id="blah" class="img-fluid">
+                    <div class="input-group col-10 offset-1">
+                        <input type="file" accept="image/*" (change)="readUrl($event)" class="form-control"
+                            id="inputGroupFile01">
+                    </div>
+                </div>
+            </div>
+            <button class="col-2 mt-2" style="margin-left: 4%;" mat-raised-button color="primary" (click)="update()"
+                [disabled]="postForm?.invalid">Lưu</button>
+        </form>
+    </div>
+</ng-template>
+<a class="dropdown-item" (click)="open(content)" style="cursor: pointer;">Thông tin cá nhân</a>
