@@ -64,19 +64,16 @@
 ## **Giao Diện Người Dùng**
 
 ### **1. Trang Chính**
-![Giao Diện Trang Chính]
+![Giao Diện Trang Chính](https://github.com/user-attachments/assets/bad041a3-1401-4a5f-bd10-b99c644a1e6d)
 
-### **2. Trang Chi Tiết Sản Phẩm**
-
+### **2. Trang Thông Tin Cá Nhân**
+![Giao Diện Thông Tin Cá Nhân](https://github.com/user-attachments/assets/e893fdbd-6e24-4aae-ac68-0b9835f07c49)
 
 ### **3. Trang Giỏ Hàng**
+![Giao Diện Trang Giỏ Hàng](https://github.com/user-attachments/assets/1a4c1f0f-fad4-484a-935b-a7d8cb605686)
 
-
-### **4. Trang Đăng Nhập**
-
-
-### **5. Trang Quản Trị Admin**
-
+### **4. Trang Quản Trị Admin**
+![Giao Diện Trang Admin](https://github.com/user-attachments/assets/41f2de8c-d134-4636-b2a0-dfa39b2f05c6)
 
 ---
 
